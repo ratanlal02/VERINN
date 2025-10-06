@@ -6,18 +6,17 @@ from typing import List, Dict
 
 from gurobipy import Model, GRB, quicksum, Var
 
-from src.SET.box import Box
-from src.SET.grbset import GRBSet
-from src.SET.polyhedron import Polyhedron
-from src.SET.set import Set
+from src.set.box import Box
+from src.set.grbset import GRBSet
+from src.set.set import Set
 import numpy.typing as npt
 import numpy as np
 
-from src.SOLVER.gurobi import Gurobi
-from src.SOLVER.solver import Solver
-from src.Types.datatype import DataType
-from src.Types.solvertype import SolverType
-from src.UTILITIES.log import Log
+from src.solver.gurobi import Gurobi
+from src.solver.solver import Solver
+from src.types.datatype import DataType
+from src.types.solvertype import SolverType
+from src.utilities.log import Log
 
 
 class SetUTS:
@@ -44,17 +43,6 @@ class SetUTS:
             for j in range(intDim):
                 grbModel.addConstr(stateVars[j] >= np.float64(arrayLow[j]))
                 grbModel.addConstr(stateVars[j] <= np.float64(arrayHigh[j]))
-        elif isinstance(objSet, Polyhedron):
-            for constraint in objSet.getPoly().constraints():
-                type = constraint.type()
-                coefficient = constraint.coefficients()
-                constant = constraint.inhomogeneous_term()
-                if type == 'equality':
-                    grbModel.addConstr(quicksum(coefficient[k] * stateVars[k] for k in range(intDim)) + constant == 0)
-                elif type == 'nonstrict_inequality':
-                    grbModel.addConstr(quicksum(coefficient[k] * stateVars[k] for k in range(intDim)) + constant >= 0)
-                elif type == 'strict_inequality':
-                    grbModel.addConstr(quicksum(coefficient[k] * stateVars[k] for k in range(intDim)) + constant > 0)
         else:
             objModel, dictVars = objSet.getModelAndDictVars()
             numVars: int = objModel.NumVars

@@ -12,8 +12,6 @@ from src.set.set import Set
 from src.types.datatype import DataType
 from src.types.sign import Sign
 import itertools
-#from ppl import *
-
 from src.utilities.log import Log
 
 

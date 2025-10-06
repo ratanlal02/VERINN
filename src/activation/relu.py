@@ -2,7 +2,7 @@
 Author: Ratan Lal
 Date : January 28, 2025
 """
-from src.Types.datatype import DataType
+from src.types.datatype import DataType
 
 
 class Relu:

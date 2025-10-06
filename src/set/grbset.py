@@ -5,17 +5,15 @@ Date : November 18, 2024
 from abc import ABC
 from typing import Dict, List, Tuple
 from gurobipy import Model, Var, GRB, quicksum
-from ppl import NNC_Polyhedron
-
-from src.SET.box import Box
-from src.SET.set import Set
+from src.set.box import Box
+from src.set.set import Set
 import numpy.typing as npt
 import numpy as np
 
-from src.SOLVER.gurobi import Gurobi
-from src.SOLVER.solver import Solver
-from src.Types.datatype import DataType
-from src.Types.sign import Sign
+from src.solver.gurobi import Gurobi
+from src.solver.solver import Solver
+from src.types.datatype import DataType
+from src.types.sign import Sign
 
 
 class GRBSet(Set, ABC):
@@ -109,14 +107,6 @@ class GRBSet(Set, ABC):
         arrayPoint: npt.ArrayLike = [DataType.RealType(0.0) for i in range(intDim)]
         return arrayPoint
 
-    def getPoly(self) -> NNC_Polyhedron:
-        """
-        Returns the polyhedron of the set
-        :return: (objNNCPoly -> NNC_Polyhedron)
-        """
-        intDim: int = self.getDimension()
-        objNNCPoly: NNC_Polyhedron = NNC_Polyhedron(intDim, 'universe')
-        return objNNCPoly
 
     def intersect(self, objSet: 'Set') -> 'Set':
         """

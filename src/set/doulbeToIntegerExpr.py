@@ -1,7 +1,7 @@
 import os
 import sys
 import re
-from src.SET.doubleArrayToInteger import DATI
+from src.set.doubleArrayToInteger import DATI
 import numpy as np
 
 
